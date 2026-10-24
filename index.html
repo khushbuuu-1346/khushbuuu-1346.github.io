@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Khushbu Wasnik Portfolio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: left-aligned single column, wide project rows (meta | detail), sticky slim nav.
+   Palette follows the resume: ink navy + signal red, cool neutrals. */
+:root {
+  --bg: #f4f5f9;
+  --surface: #ffffff;
+  --fg: #1a1a2e;
+  --muted: #5d6178;
+  --line: #dcdee8;
+  --accent: #d92c3b;
+  --accent-ink: #ffffff;
+  --accent-soft: #fde9eb;
+  --chip: #e9ebf3;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11121e; --surface: #1a1b2c; --fg: #eceef8; --muted: #a2a6bd; --line: #2c2e45;
+    --accent: #ff5a68; --accent-ink: #11121e; --accent-soft: #3a1d27; --chip: #25273b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11121e; --surface: #1a1b2c; --fg: #eceef8; --muted: #a2a6bd; --line: #2c2e45;
+  --accent: #ff5a68; --accent-ink: #11121e; --accent-soft: #3a1d27; --chip: #25273b;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+
+/* Nav */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { font-family: var(--font-display); font-weight: 700; text-decoration: none; letter-spacing: -.01em; white-space: nowrap; }
+.nav ul { list-style: none; display: flex; gap: 4px 18px; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
+.nav li a { font-family: var(--font-mono); font-size: 13px; color: var(--muted); text-decoration: none; }
+.nav li a:hover { color: var(--accent); }
+
+/* Hero */
+.hero { padding-block: 56px 48px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
+.kicker { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 16px; }
+h1 {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -.03em;
+  font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: .98; margin: 0 0 20px; text-wrap: balance;
+}
+.lede { font-size: 1.15rem; max-width: 56ch; color: var(--muted); margin: 0 0 28px; }
+.lede strong { color: var(--fg); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  font-family: var(--font-body); font-weight: 600; font-size: 15px; text-decoration: none;
+  border: 1.5px solid var(--fg); border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); color: var(--accent-ink); }
+.bars { display: flex; align-items: flex-end; gap: 6px; height: 150px; }
+.bars span { width: 14px; background: var(--line); border-radius: 3px 3px 0 0; }
+.bars span.hi { background: var(--accent); }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fact { padding: 16px 16px 16px 0; min-width: 0; }
+.fact dt { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.fact dd { margin: 4px 0 0; font-weight: 500; }
+
+/* Sections */
+section { padding-block: 64px 8px; }
+.sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; justify-content: space-between; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.7rem, 4vw, 2.3rem); letter-spacing: -.02em; line-height: 1.1; margin: 0; text-wrap: balance; }
+
+/* Skills */
+.skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+.skill-groups h3 { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; font-weight: 500; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.chips li { font-family: var(--font-mono); font-size: 13.5px; background: var(--chip); padding: 5px 11px; border-radius: 4px; }
+.chips.key li { background: var(--fg); color: var(--bg); }
+
+/* Projects */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters button {
+  font-family: var(--font-mono); font-size: 13px; min-height: 36px; padding: 0 14px; cursor: pointer;
+  background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+}
+.filters button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.projects { border-top: 1px solid var(--fg); }
+.project { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 8px 40px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+.project[hidden] { display: none; }
+.meta { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; min-width: 0; }
+.level { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+.level.major { background: var(--fg); color: var(--bg); }
+.level.inter { background: var(--accent-soft); color: var(--accent); }
+.level.basic { background: var(--chip); color: var(--muted); }
+.kind { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.project h3 { font-family: var(--font-display); font-size: clamp(1.35rem, 3vw, 1.75rem); font-weight: 700; letter-spacing: -.015em; line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+.project p { margin: 0 0 14px; max-width: 64ch; }
+.project ul.did { margin: 0 0 18px; padding-left: 1.15em; max-width: 64ch; color: var(--muted); }
+.project ul.did li { margin-bottom: 4px; }
+.project ul.did li::marker { color: var(--accent); }
+.code {
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.55; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; margin: 0 0 18px; overflow-x: auto; max-width: 64ch;
+}
+.code .cap { display: block; color: var(--muted); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.code .kw { color: var(--accent); }
+
+/* Education + certs */
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+.two h3 { font-family: var(--font-mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; font-weight: 500; }
+.edu-title { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.25; margin: 0; }
+.edu-sub { color: var(--muted); margin: 4px 0 10px; }
+.pill { display: inline-block; font-family: var(--font-mono); font-size: 12.5px; background: var(--accent-soft); color: var(--accent); padding: 3px 10px; border-radius: 999px; }
+.certs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.certs li { padding: 12px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.certs li:first-child { padding-top: 0; }
+.certs b { font-weight: 600; }
+.certs span { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+.langs { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 28px; }
+.langs span { font-size: 15px; }
+.langs em { font-style: normal; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); margin-left: 6px; }
+
+/* Contact */
+.contact { margin-top: 64px; padding: 36px 0 0; border-top: 1px solid var(--fg); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+.contact h2 { margin-bottom: 10px; }
+.contact p { margin: 0; color: var(--muted); max-width: 44ch; }
+.mail { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+.mail code { font-family: var(--font-mono); font-size: 15px; background: var(--surface); border: 1px solid var(--line); padding: 9px 14px; border-radius: 6px; user-select: all; overflow-wrap: anywhere; }
+.links { display: flex; flex-direction: column; gap: 8px; font-family: var(--font-mono); font-size: 14px; }
+.links a { text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.links a:hover { color: var(--accent); border-color: var(--accent); }
+.foot { margin-top: 40px; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 36px 32px; }
+  .bars { height: 70px; }
+  .bars span { width: 100%; max-width: 22px; }
+  .project { grid-template-columns: minmax(0, 1fr); padding: 26px 0; }
+  .meta { flex-direction: row; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .contact { grid-template-columns: minmax(0, 1fr); }
+  .nav ul { gap: 2px 14px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">K. Wasnik</a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#certifications">Certificates</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    <div>
+      <p class="kicker">Data analyst &middot; B.Tech CSE</p>
+      <h1>Khushbu Wasnik</h1>
+      <p class="lede">I clean, query and visualise data to answer business questions. I work in <strong>Python, SQL and Excel</strong>, and I build dashboards that make the answer easy to see. My web development background helps me present findings clearly.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">See my projects</a>
+        <a class="btn" href="https://github.com/khushbu-wasnik" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/khushbu-wasnik" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div class="bars" aria-hidden="true">
+      <span style="height:28%"></span><span style="height:46%"></span><span style="height:38%"></span><span style="height:62%"></span><span style="height:54%"></span><span class="hi" style="height:100%"></span><span style="height:72%"></span>
+    </div>
+  </div>
+
+  <dl class="facts">
+    <div class="fact"><dt>Studying</dt><dd>B.Tech, Computer Science &amp; Engineering</dd></div>
+    <div class="fact"><dt>College</dt><dd>CSMSS College of Engineering, Chhatrapati Sambhajinagar</dd></div>
+    <div class="fact"><dt>Based in</dt><dd>Nagpur, Maharashtra</dd></div>
+  </dl>
+
+  <section id="skills">
+    <div class="sec-head"><h2>Skills</h2></div>
+    <div class="skill-groups">
+      <div>
+        <h3>Data analysis</h3>
+        <ul class="chips key">
+          <li>Python</li><li>SQL</li><li>Excel</li><li>Pandas</li><li>NumPy</li><li>Matplotlib</li><li>Seaborn</li><li>Power BI</li>
+        </ul>
+        <ul class="chips" style="margin-top:8px">
+          <li>Data cleaning</li><li>EDA</li><li>Data visualization</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Programming and web</h3>
+        <ul class="chips">
+          <li>Java</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Git &amp; GitHub</li><li>Responsive design</li>
+        </ul>
+        <h3 style="margin-top:22px">Strengths</h3>
+        <ul class="chips">
+          <li>Analytical thinking</li><li>Problem solving</li><li>Attention to detail</li><li>Quick learner</li><li>Team player</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head">
+      <h2>Projects</h2>
+      <div class="filters" role="group" aria-label="Filter projects">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="data" aria-pressed="false">Data analysis</button>
+        <button type="button" data-filter="web" aria-pressed="false">Web</button>
+      </div>
+    </div>
+
+    <div class="projects">
+      <article class="project" data-kind="web">
+        <div class="meta"><span class="level major">Major</span><span class="kind">Web development</span></div>
+        <div>
+          <h3>Personal Portfolio Website</h3>
+          <p>A fully responsive personal portfolio showcasing skills, projects, and certifications. Built with HTML, CSS, and JavaScript with smooth animations and mobile-first design.</p>
+          <ul class="did">
+            <li>Designed the layout mobile-first so it works from phone to desktop.</li>
+            <li>Added smooth scroll and entrance animations in plain JavaScript.</li>
+            <li>Organised content into skills, projects and certifications sections.</li>
+          </ul>
+          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+        </div>
+      </article>
+
+      <article class="project" data-kind="data">
+        <div class="meta"><span class="level inter">Intermediate</span><span class="kind">Data analysis</span></div>
+        <div>
+          <h3>Retail Sales Performance Dashboard</h3>
+          <p>Cleaned and analysed a retail sales dataset to uncover top-selling products, regional trends and monthly revenue patterns, then presented the results in an interactive dashboard.</p>
+          <ul class="did">
+            <li>Cleaned and prepared the raw data with Pandas.</li>
+            <li>Wrote SQL aggregation queries for revenue by product, region and month.</li>
+            <li>Built an interactive dashboard of the key KPIs in Power BI.</li>
+          </ul>
+          <ul class="chips"><li>Python</li><li>Pandas</li><li>SQL</li><li>Power BI</li></ul>
+        </div>
+      </article>
+
+      <article class="project" data-kind="data">
+        <div class="meta"><span class="level inter">Intermediate</span><span class="kind">Data analysis</span></div>
+        <div>
+          <h3>Customer Churn Analysis (EDA)</h3>
+          <p>Exploratory data analysis of a telecom customer dataset to find which factors are linked to customers leaving.</p>
+          <ul class="did">
+            <li>Handled missing values and outliers before analysis.</li>
+            <li>Used correlation and group-wise analysis to compare churned and retained customers.</li>
+            <li>Visualised patterns with Matplotlib and Seaborn.</li>
+          </ul>
+          <ul class="chips"><li>Python</li><li>Pandas</li><li>NumPy</li><li>Matplotlib</li><li>Seaborn</li></ul>
+        </div>
+      </article>
+
+      <article class="project" data-kind="data">
+        <div class="meta"><span class="level basic">Basic</span><span class="kind">Data analysis</span></div>
+        <div>
+          <h3>Student Marks Analysis</h3>
+          <p>Analysed student performance data to find subject-wise averages, toppers and pass/fail trends.</p>
+          <ul class="did">
+            <li>Used formulas such as AVERAGE, COUNTIF and RANK for the summary numbers.</li>
+            <li>Built pivot tables and charts to compare subjects.</li>
+          </ul>
+          <ul class="chips"><li>Excel</li></ul>
+        </div>
+      </article>
+
+      <article class="project" data-kind="data">
+        <div class="meta"><span class="level basic">Basic</span><span class="kind">Data analysis</span></div>
+        <div>
+          <h3>SQL Query Practice: Employee Database</h3>
+          <p>Designed a small relational database and wrote queries to answer business-style questions.</p>
+          <ul class="did">
+            <li>Practised joins, GROUP BY, subqueries and aggregate functions.</li>
+            <li>Structured tables with primary and foreign keys.</li>
+          </ul>
+          <pre class="code"><span class="cap">Example query</span><span class="kw">SELECT</span> d.name, <span class="kw">COUNT</span>(*) <span class="kw">AS</span> employees, <span class="kw">AVG</span>(e.salary) <span class="kw">AS</span> avg_salary
+<span class="kw">FROM</span> employees e
+<span class="kw">JOIN</span> departments d <span class="kw">ON</span> e.dept_id = d.id
+<span class="kw">GROUP BY</span> d.name;</pre>
+          <ul class="chips"><li>SQL</li><li>MySQL</li></ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="certifications">
+    <div class="two">
+      <div>
+        <h3>Certifications</h3>
+        <ul class="certs">
+          <li><b>Google Data Analytics Certificate</b><span>Google &middot; Coursera</span></li>
+          <li><b>Data Analytics with Python</b><span>NPTEL &middot; IIT Roorkee</span></li>
+          <li><b>Programming in Java</b><span>NPTEL &middot; IIT Kharagpur</span></li>
+          <li><b>Programming in Python</b><span>NPTEL &middot; IIT Kharagpur</span></li>
+          <li><b>Web Development Bootcamp</b><span>Code With Harry</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Education</h3>
+        <p class="edu-title">Bachelor of Technology, Computer Science &amp; Engineering</p>
+        <p class="edu-sub">CSMSS College of Engineering, Chhatrapati Sambhajinagar</p>
+        <span class="pill">3rd year &middot; 2024 to 2028 (expected)</span>
+        <div class="langs" aria-label="Languages">
+          <span>Marathi<em>native</em></span><span>Hindi<em>native</em></span><span>English<em>fluent</em></span><span>German<em>basic</em></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="contact" id="contact">
+    <div>
+      <h2>Let's talk about data</h2>
+      <p>Open to data analyst internships and entry-level roles.</p>
+      <div class="mail">
+        <code id="email">kcwasnik01@gmail.com</code>
+        <button class="btn" type="button" id="copy">Copy email</button>
+      </div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/khushbu-wasnik" target="_blank" rel="noopener">github.com/khushbu-wasnik</a>
+      <a href="https://www.linkedin.com/in/khushbu-wasnik" target="_blank" rel="noopener">linkedin.com/in/khushbu-wasnik</a>
+    </div>
+  </div>
+  <p class="foot">Nagpur, Maharashtra</p>
+</main>
+
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.filters button');
+  var projects = document.querySelectorAll('.project');
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter');
+      buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      projects.forEach(function (p) { p.hidden = !(f === 'all' || p.getAttribute('data-kind') === f); });
+    });
+  });
+  var copy = document.getElementById('copy');
+  var email = document.getElementById('email');
+  copy.addEventListener('click', function () {
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy email'; }, 1600); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(email);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copy.textContent = 'Selected';
+    };
+    try {
+      navigator.clipboard.writeText(email.textContent).then(done, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+
+</body>
+</html>
